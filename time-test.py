@@ -3,39 +3,63 @@ import statistics
 
 # тут потрібно імпортувати graph_generator та graph_algorythm
 
+# підготовка csv файлу
+with open("result.csv", "w") as f:
+    f.write(f"avg,max,min,stdev,vertices,density\n")
 
-# початкові значення для тесту
-vertices = 10 # вершини (20-200)
-density = 50 # щільність (10-50)
-num_iter = 0 # кількість ітерацій для тесту
+# початкові значення для тесту, від якого до якого перевіряти
+# вершини (20-200)
+ver_min = 20
+ver_max = 200
+ver_step = 10
 
-times = [] # список для результатів
+# щільність (10-50)
+den_min = 10
+den_max = 50
+den_step = 10
+
+# кількість ітерацій для кожної пари
+num_iter = 5
+
+first_iter_cycle = int((ver_max - ver_min) / ver_step)
+second_iter_cycle = int((den_max - den_min) / den_step)
 
 # тест алгоритму
-for i in range(num_iter):
-    #graph = graph_generator(vertices, density)
+f = open("result.csv", "a")
 
-    start_time = time.perf_counter() # початок заміру
+ver = ver_min
+den = den_min
 
-    # тут виклик функції алгоритму
+for k in range(first_iter_cycle + 1):
+    for j in range(second_iter_cycle + 1):
+        times = []  # список для результатів
+        for i in range(num_iter):
+            # graph = graph_generator(ver, den)
 
-    end_time = time.perf_counter() # кінець заміру
+            start_time = time.perf_counter()  # початок заміру
 
-    clean_time = end_time - start_time
-    times.append(clean_time)
+            # тут виклик функції алгоритму
+            for _ in range(99999):
+                _ += 1
 
+            end_time = time.perf_counter()  # кінець заміру
 
-if times:
-    avg_time = statistics.mean(times)
+            clean_time = end_time - start_time
+            times.append(clean_time)
 
-    # Стандартне відхилення - показує, наскільки сильно відрізнялися результати між собою (дисперсія)
-    stdev = statistics.stdev(times)
+        if times:
+            avg_time = float(f"{statistics.mean(times) * 1000:.6f}")
+            max_time = float(f"{max(times) * 1000:.6f}")
+            min_time = float(f"{min(times) * 1000:.6f}")
+            stdev = float(
+                f"{statistics.stdev(times) * 1000:.6f}")  # Стандартне відхилення - показує, наскільки сильно відрізнялися результати між собою (дисперсія)
 
-    print("-" * 50)
-    print(f"Результати тесту на {num_iter} ітерацій:")
-    print(f"Середній час {avg_time * 1000:.6f} мс")
-    print(f"Максимальний час: {max(times) * 1000:.6f} мс")
-    print(f"Мінімальний час: {min(times) * 1000:.6f} мс")
-    print(f"Стандартне відхилення: {stdev * 1000:.6f} мс")
-else:
-    print("Не вдалося зібрати дані вимірювань.")
+            f.write(f"{avg_time},{max_time},{min_time},{stdev},{ver},{den}\n")
+        else:
+            print("Не вдалося зібрати дані вимірювань.")
+            f.write(f"0,0,0,0,0,0\n")
+
+        den += 10
+    ver += 10
+    den = den_min
+f.close()
