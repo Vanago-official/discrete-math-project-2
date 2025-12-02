@@ -13,9 +13,6 @@ def graph_generator(vertices: int, density: int) -> list:
     # заповнення графа
     for i in range(len(matrix)):
         for j in range(len(matrix)):
-            if i == j:
-                matrix[i][j] = 1
-
-            if random.randint(1, 100) <= density:
+            if i != j and random.randint(1, 100) <= density:
                 matrix[i][j] = 1
     return matrix
