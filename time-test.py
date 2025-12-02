@@ -56,7 +56,6 @@ for k in range(first_iter_cycle + 1):
 
             f.write(f"{avg_time},{max_time},{min_time},{stdev},{ver},{den}\n")
         else:
-            print("Не вдалося зібрати дані вимірювань.")
             f.write(f"0,0,0,0,0,0\n")
 
         den += 10
