@@ -58,7 +58,7 @@ for k in range(first_iter_cycle + 1):
         else:
             f.write(f"0,0,0,0,0,0\n")
 
-        den += 10
-    ver += 10
+        den += den_step
+    ver += ver_step
     den = den_min
 f.close()
