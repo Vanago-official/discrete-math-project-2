@@ -1,10 +1,10 @@
 import time
 import statistics
-
-# тут потрібно імпортувати graph_generator та graph_algorythm
+import GraphAlgorithm
+import GraphGeneration
 
 # підготовка csv файлу
-with open("result.csv", "w") as f:
+with open("Graphs/result.csv", "w") as f:
     f.write(f"avg,max,min,stdev,vertices,density\n")
 
 # початкові значення для тесту, від якого до якого перевіряти
@@ -25,7 +25,7 @@ first_iter_cycle = int((ver_max - ver_min) / ver_step)
 second_iter_cycle = int((den_max - den_min) / den_step)
 
 # тест алгоритму
-f = open("result.csv", "a")
+f = open("Graphs/result.csv", "a")
 
 ver = ver_min
 den = den_min
@@ -34,13 +34,12 @@ for k in range(first_iter_cycle + 1):
     for j in range(second_iter_cycle + 1):
         times = []  # список для результатів
         for i in range(num_iter):
-            # graph = graph_generator(ver, den)
+            graph = GraphGeneration.graph_generator(ver, den)
 
             start_time = time.perf_counter()  # початок заміру
 
             # тут виклик функції алгоритму
-            for _ in range(99999):
-                _ += 1
+            GraphAlgorithm.algorithm(graph)
 
             end_time = time.perf_counter()  # кінець заміру
 

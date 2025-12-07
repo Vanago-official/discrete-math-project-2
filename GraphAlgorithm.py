@@ -1,3 +1,4 @@
+import GraphGeneration
 
 # Код згенеровано за допомогою ШІ (ChatGPT)
 
